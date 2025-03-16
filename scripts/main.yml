@@ -1,0 +1,8 @@
+info:
+  - priority: "utility"
+
+
+testFunction:
+  type: function
+  actions:
+    - log: "Hello, world!"
