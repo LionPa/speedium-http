@@ -1,8 +1,15 @@
 info:
   - priority: "utility"
 
-
-testFunction:
-  type: function
-  actions:
-    - log: "Hello, world!"
+load:
+  type: load
+  load:
+    - action_compiler: "request"
+      java_code: |
+        String url = get(command);
+        String method = getOr(method, "GET");
+        String response = get(response);
+        String code = "CompletableFuture.runAsync(() -> {\n try {\n  HttpURLConnection connection = (HttpURLConnection) HttpRequest.newBuilder().uri(URI.create(\"{URL}\"));\n connection.setRequestMethod(\"{METHOD}\");\n connection.connect();\n \n  String {RESPONSE} = connection.getResponseMessage();".replace("{URL}", url).replace("{METHOD}", method).replace("{RESPONSE}", response);
+        line(code)
+        actions("then")
+        line("\n\n } catch (Exception exception) {\n exception.printStackTrace();\n}\n});")
