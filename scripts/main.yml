@@ -4,12 +4,11 @@ info:
 load:
   type: load
   load:
-    - action_compiler: "request"
+    - action_compiler: "get_request"
       java_code: |
         String url = get(command);
-        String method = getOr(method, "GET");
         String response = get(response);
-        String code = "CompletableFuture.runAsync(() -> {\n try {\n  HttpURLConnection connection = (HttpURLConnection) HttpRequest.newBuilder().uri(URI.create(\"{URL}\"));\n connection.setRequestMethod(\"{METHOD}\");\n connection.connect();\n \n  String {RESPONSE} = connection.getResponseMessage();".replace("{URL}", url).replace("{METHOD}", method).replace("{RESPONSE}", response);
+        String code = "CompletableFuture.runAsync(() -> {\n try {\nHttpClient client = HttpClient.newHttpClient();\n HttpRequest request = HttpRequest.newBuilder().uri(URI.create({\"{URL}\"})).GET().build();\nString {RESPONSE} = client.send(request, HttpResponse.BodyHandlers.ofString()).body();\nclient.close();\n".replace("{URL}", url).replace("{RESPONSE}", response);
         line(code)
         actions("then")
         line("\n\n } catch (Exception exception) {\n exception.printStackTrace();\n}\n});")
