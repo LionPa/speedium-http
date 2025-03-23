@@ -13,3 +13,7 @@ load:
         line(code)
         actions("then")
         line("\n\n } catch (Exception exception) {\n exception.printStackTrace();\n}\n});")
+        
+        builder.addImport("java.util.concurrent.CompletableFuture");
+        builder.addImport("java.net.*");
+        builder.addImport("java.net.http.HttpRequest");
