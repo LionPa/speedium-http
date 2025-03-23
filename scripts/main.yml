@@ -6,8 +6,8 @@ load:
   load:
     - action_compiler: "get_request"
       java_code: |
-        String url = get(command);
-        String response = get(response);
+        String url = get(command)
+        String response = get(response)
         String code = "CompletableFuture.runAsync(() -> {\n try {\nHttpClient client = HttpClient.newHttpClient();\n HttpRequest request = HttpRequest.newBuilder().uri(URI.create({\"{URL}\"})).GET().build();\nString {RESPONSE} = client.send(request, HttpResponse.BodyHandlers.ofString()).body();\nclient.close();\n".replace("{URL}", url).replace("{RESPONSE}", response);
         line(code)
         actions("then")
@@ -15,4 +15,4 @@ load:
         
         codeBuilder.addImport("java.util.concurrent.CompletableFuture");
         codeBuilder.addImport("java.net.*");
-        codeBuilder.addImport("java.net.http.HttpRequest");
+        codeBuilder.addImport("java.net.http.*");
