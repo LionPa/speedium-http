@@ -13,6 +13,6 @@ load:
         actions("then")
         line("\n\n } catch (Exception exception) {\n exception.printStackTrace();\n}\n});")
         
-        codeBuilder.addImport("java.util.concurrent.CompletableFuture");
-        codeBuilder.addImport("java.net.*");
-        codeBuilder.addImport("java.net.http.*");
+        import("java.util.concurrent.CompletableFuture")
+        import("java.net.*")
+        import("java.net.http.*")
